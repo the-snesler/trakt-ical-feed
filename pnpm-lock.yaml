@@ -8,13 +8,22 @@ importers:
 
   .:
     dependencies:
+      dayjs:
+        specifier: ^1.11.20
+        version: 1.11.20
       hono:
         specifier: ^4.12.8
         version: 4.12.8
+      ical-generator:
+        specifier: ^10.1.0
+        version: 10.1.0(@types/node@25.5.0)(dayjs@1.11.20)
     devDependencies:
       '@types/node':
         specifier: ^25.5.0
         version: 25.5.0
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
       wrangler:
         specifier: ^4.73.0
         version: 4.73.0
@@ -400,6 +409,9 @@ packages:
     resolution: {integrity: sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==}
     engines: {node: '>=18'}
 
+  dayjs@1.11.20:
+    resolution: {integrity: sha512-YbwwqR/uYpeoP4pu043q+LTDLFBLApUP6VxRihdfNTqu4ubqMlGDLd6ErXhEgsyvY0K6nCs7nggYumAN+9uEuQ==}
+
   detect-libc@2.1.2:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
     engines: {node: '>=8'}
@@ -420,6 +432,39 @@ packages:
   hono@4.12.8:
     resolution: {integrity: sha512-VJCEvtrezO1IAR+kqEYnxUOoStaQPGrCmX3j4wDTNOcD1uRPFpGlwQUIW8niPuvHXaTUxeOUl5MMDGrl+tmO9A==}
     engines: {node: '>=16.9.0'}
+
+  ical-generator@10.1.0:
+    resolution: {integrity: sha512-VgWzox2svupw4HoZo9Ym0pmj50Cr7CO+By/TraNUVTXQL5Qh0p13iGNzizhXd/KDuzOHUSSXwUWIMZmBHQU65Q==}
+    engines: {node: 20 || 22 || >=24}
+    peerDependencies:
+      '@touch4it/ical-timezones': '>=1.6.0'
+      '@types/luxon': '>= 1.26.0'
+      '@types/mocha': '>= 8.2.1'
+      '@types/node': '*'
+      dayjs: '>= 1.10.0'
+      luxon: '>= 1.26.0'
+      moment: '>= 2.29.0'
+      moment-timezone: '>= 0.5.33'
+      rrule: '>= 2.6.8'
+    peerDependenciesMeta:
+      '@touch4it/ical-timezones':
+        optional: true
+      '@types/luxon':
+        optional: true
+      '@types/mocha':
+        optional: true
+      '@types/node':
+        optional: true
+      dayjs:
+        optional: true
+      luxon:
+        optional: true
+      moment:
+        optional: true
+      moment-timezone:
+        optional: true
+      rrule:
+        optional: true
 
   kleur@4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
@@ -451,6 +496,11 @@ packages:
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
+
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
 
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
@@ -736,6 +786,8 @@ snapshots:
 
   cookie@1.1.1: {}
 
+  dayjs@1.11.20: {}
+
   detect-libc@2.1.2: {}
 
   error-stack-parser-es@1.0.5: {}
@@ -773,6 +825,11 @@ snapshots:
     optional: true
 
   hono@4.12.8: {}
+
+  ical-generator@10.1.0(@types/node@25.5.0)(dayjs@1.11.20):
+    optionalDependencies:
+      '@types/node': 25.5.0
+      dayjs: 1.11.20
 
   kleur@4.1.5: {}
 
@@ -829,6 +886,8 @@ snapshots:
 
   tslib@2.8.1:
     optional: true
+
+  typescript@5.9.3: {}
 
   undici-types@7.18.2: {}
 
