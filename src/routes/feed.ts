@@ -48,7 +48,8 @@ feed.get("/:feedToken", async (c) => {
       fetchCalendarMovies(c.env.TRAKT_CLIENT_ID, accessToken),
     ]);
 
-    const ical = generateCalendar(shows, movies);
+    const allDay = c.req.query("allday") === "1";
+    const ical = generateCalendar(shows, movies, allDay);
 
     return c.body(ical, 200, {
       "Content-Type": "text/calendar; charset=utf-8",

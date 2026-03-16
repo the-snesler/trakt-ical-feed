@@ -60,6 +60,10 @@ dashboard.get("/", async (c) => {
                 Copy
               </button>
             </div>
+            <label class="checkbox-label">
+              <input type="checkbox" id="allday-toggle" onchange="toggleAllDay()" />
+              All-day events
+            </label>
           </section>
 
           <section class="card">
@@ -75,6 +79,13 @@ dashboard.get("/", async (c) => {
           </section>
         </div>
         <script dangerouslySetInnerHTML={{__html: `
+          var baseUrl = document.getElementById('feed-url').getAttribute('value');
+          function updateUrl() {
+            var input = document.getElementById('feed-url');
+            var allday = document.getElementById('allday-toggle').checked;
+            input.value = allday ? baseUrl + '?allday=1' : baseUrl;
+          }
+          function toggleAllDay() { updateUrl(); }
           function copyUrl() {
             var input = document.getElementById('feed-url');
             navigator.clipboard.writeText(input.value).then(function() {
@@ -125,7 +136,16 @@ const styles = `
     margin-bottom: 1rem;
   }
   .description { font-size: 0.85rem; color: #999; margin-bottom: 1rem; }
-  .feed-url-group { display: flex; gap: 0.5rem; }
+  .feed-url-group { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #ccc;
+    cursor: pointer;
+  }
+  .checkbox-label input { cursor: pointer; }
   .feed-url {
     flex: 1;
     padding: 0.5rem 0.75rem;
