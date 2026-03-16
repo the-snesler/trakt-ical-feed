@@ -54,6 +54,7 @@ feed.get("/:feedToken", async (c) => {
       "Content-Type": "text/calendar; charset=utf-8",
       "Content-Disposition": 'inline; filename="trakt.ics"',
       "Cache-Control": "public, max-age=3600",
+      "Access-Control-Allow-Origin": "*",
     });
   } catch (e) {
     console.error("Feed generation failed:", e);

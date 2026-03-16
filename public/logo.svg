@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:1.5;">
+    <g id="_x2D_-production">
+        <g id="logomark.square.gradient">
+            <clipPath id="_clip1">
+                <path d="M48,12L48,36C48,42.623 42.623,48 36,48L12,48C5.377,48 0,42.623 0,36L0,12C0,5.377 5.377,0 12,0L36,0C42.623,0 48,5.377 48,12Z"/>
+            </clipPath>
+            <g clip-path="url(#_clip1)">
+                <rect x="0" y="0" width="48" height="48" style="fill:url(#_Radial2);"/>
+                <g transform="matrix(1,0,0,1,-3.097586,1.172461)">
+                    <g transform="matrix(0.564394,0,0,0.564394,20.260303,3.61795)">
+                        <path d="M12.114,17.514L22.889,28.289L43.225,7.954" style="fill:none;stroke:white;stroke-width:3.72px;"/>
+                    </g>
+                    <g transform="matrix(0.604828,0,0,0.604828,20.933599,5.717396)">
+                        <path d="M22.889,28.289L43.225,7.954" style="fill:none;stroke:white;stroke-width:3.47px;stroke-linejoin:round;"/>
+                    </g>
+                    <g transform="matrix(0.564394,0,0,0.564394,22.681357,1.196896)">
+                        <path d="M12.114,17.514L20.326,25.726" style="fill:none;stroke:white;stroke-width:3.72px;stroke-linejoin:round;"/>
+                    </g>
+                </g>
+                <g transform="matrix(0.948864,0,0,1,0.386347,-0.077322)">
+                    <path d="M8.137,13.799L21.276,13.799" style="fill:none;stroke:white;stroke-width:2.15px;stroke-linejoin:round;"/>
+                </g>
+                <g transform="matrix(0.948864,0,0,1,0.386347,6.774722)">
+                    <path d="M8.137,13.799L21.276,13.799" style="fill:none;stroke:white;stroke-width:2.15px;stroke-linejoin:round;"/>
+                </g>
+                <g transform="matrix(0.948864,0,0,1,0.386347,13.626765)">
+                    <path d="M8.137,13.799L41.636,13.799" style="fill:none;stroke:white;stroke-width:2.15px;stroke-linejoin:round;"/>
+                </g>
+                <g transform="matrix(0.948864,0,0,1,0.386347,20.478809)">
+                    <path d="M8.137,13.799L41.636,13.799" style="fill:none;stroke:white;stroke-width:2.15px;stroke-linejoin:round;"/>
+                </g>
+                <g transform="matrix(0,0.948864,-1,0,48.077322,0.386347)">
+                    <path d="M28.569,13.799L41.636,13.799" style="fill:none;stroke:white;stroke-width:2.15px;stroke-linejoin:round;"/>
+                </g>
+                <g transform="matrix(0,0.948864,-1,0,41.225278,0.386347)">
+                    <path d="M28.569,13.799L41.636,13.799" style="fill:none;stroke:white;stroke-width:2.15px;stroke-linejoin:round;"/>
+                </g>
+                <g transform="matrix(0,0.948864,-1,0,34.373235,0.386347)">
+                    <path d="M8.137,13.799L41.636,13.799" style="fill:none;stroke:white;stroke-width:2.15px;stroke-linejoin:round;"/>
+                </g>
+                <g transform="matrix(0,0.948864,-1,0,27.521191,0.386347)">
+                    <path d="M8.137,13.799L41.636,13.799" style="fill:none;stroke:white;stroke-width:2.15px;stroke-linejoin:round;"/>
+                </g>
+                <path d="M41.32,35.12C41.32,38.54 38.54,41.32 35.12,41.32L12.88,41.32C9.46,41.32 6.68,38.54 6.68,35.12L6.68,12.88C6.68,9.46 9.46,6.67 12.88,6.67L33.66,6.67L33.66,4.6L12.88,4.6C8.32,4.6 4.6,8.31 4.6,12.88L4.6,35.12C4.6,39.68 8.31,43.4 12.88,43.4L35.12,43.4C39.68,43.4 43.4,39.69 43.4,35.12L43.4,31.61L41.33,31.61L41.33,35.12L41.32,35.12Z" style="fill:white;fill-rule:nonzero;"/>
+            </g>
+        </g>
+    </g>
+    <defs>
+        <radialGradient id="_Radial2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(64.84,0,0,64.84,48.46,-0.95)"><stop offset="0" style="stop-color:rgb(159,66,198);stop-opacity:1"/><stop offset="0.27" style="stop-color:rgb(160,65,195);stop-opacity:1"/><stop offset="0.42" style="stop-color:rgb(164,62,187);stop-opacity:1"/><stop offset="0.53" style="stop-color:rgb(170,57,173);stop-opacity:1"/><stop offset="0.64" style="stop-color:rgb(180,51,154);stop-opacity:1"/><stop offset="0.73" style="stop-color:rgb(192,43,129);stop-opacity:1"/><stop offset="0.82" style="stop-color:rgb(207,32,97);stop-opacity:1"/><stop offset="0.9" style="stop-color:rgb(225,20,60);stop-opacity:1"/><stop offset="0.97" style="stop-color:rgb(245,6,19);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(255,0,0);stop-opacity:1"/></radialGradient>
+    </defs>
+</svg>

@@ -9,12 +9,38 @@
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
-	"routes": [
-    {
-      "pattern": "vibecheck.tsuni.dev",
-      "custom_domain": true
-    }
-  ],
+	"assets": {
+		"directory": "./public"
+	},
+	"env": {
+		"prod": {
+			"routes": [
+				{
+					"pattern": "trakt.samnesler.com",
+					"custom_domain": true
+				}
+			],
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_name": "trakt-ical-db",
+					"database_id": "5a2044a2-63d3-4903-891f-06a053903827"
+				}
+			],
+			"kv_namespaces": [
+				{
+					"binding": "SESSIONS",
+					"id": "b5df16c44a5543a5b6f5a70c73bd0669"
+				}
+			],
+			"observability": {
+				"enabled": false,
+				"logs": {
+					"enabled": false
+				}
+			}
+		}
+	},
 	"d1_databases": [
 		{
 			"binding": "DB",

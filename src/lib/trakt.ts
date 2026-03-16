@@ -6,10 +6,12 @@ import type {
 } from "./types";
 
 const TRAKT_API = "https://api.trakt.tv";
+const USER_AGENT = "trakt-serverless-ical/1.0.0";
 
 function headers(clientId: string, accessToken?: string): Record<string, string> {
   const h: Record<string, string> = {
     "Content-Type": "application/json",
+    "User-Agent": USER_AGENT,
     "trakt-api-key": clientId,
     "trakt-api-version": "2",
   };
@@ -27,7 +29,7 @@ export async function exchangeCode(
 ): Promise<TraktTokenResponse> {
   const res = await fetch(`${TRAKT_API}/oauth/token`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "User-Agent": USER_AGENT },
     body: JSON.stringify({
       code,
       client_id: clientId,
@@ -36,8 +38,9 @@ export async function exchangeCode(
       grant_type: "authorization_code",
     }),
   });
+  console.log(redirectUri)
   if (!res.ok) {
-    throw new Error(`Token exchange failed: ${res.status}`);
+    throw new Error(`Token exchange failed: ${res.status}\n${await res.text()}`);
   }
 
   return res.json();
@@ -51,7 +54,7 @@ export async function refreshAccessToken(
 ): Promise<TraktTokenResponse> {
   const res = await fetch(`${TRAKT_API}/oauth/token`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "User-Agent": USER_AGENT },
     body: JSON.stringify({
       refresh_token: refreshToken,
       client_id: clientId,

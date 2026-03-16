@@ -25,12 +25,16 @@ dashboard.get("/", async (c) => {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Dashboard — Trakt iCal</title>
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
         <style>{styles}</style>
       </head>
       <body>
         <div class="container">
           <header>
-            <h1>Trakt iCal Feed</h1>
+            <div class="header-brand">
+              <img src="/logo.svg" alt="" class="header-logo" />
+              <h1>Trakt iCal Feed</h1>
+            </div>
             <div class="user-info">
               <span>Signed in as <strong>{userName}</strong></span>
               <form method="post" action="/auth/logout" style="display:inline">
@@ -70,16 +74,16 @@ dashboard.get("/", async (c) => {
             </form>
           </section>
         </div>
-        <script>{`
+        <script dangerouslySetInnerHTML={{__html: `
           function copyUrl() {
-            const input = document.getElementById('feed-url');
-            navigator.clipboard.writeText(input.value).then(() => {
-              const btn = document.getElementById('copy-btn');
+            var input = document.getElementById('feed-url');
+            navigator.clipboard.writeText(input.value).then(function() {
+              var btn = document.getElementById('copy-btn');
               btn.textContent = 'Copied!';
-              setTimeout(() => btn.textContent = 'Copy', 2000);
+              setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
             });
           }
-        `}</script>
+        `}} />
       </body>
     </html>
   );
@@ -108,6 +112,8 @@ const styles = `
     padding-bottom: 1rem;
     border-bottom: 1px solid #333;
   }
+  .header-brand { display: flex; align-items: center; gap: 0.75rem; }
+  .header-logo { width: 32px; height: 32px; }
   h1 { font-size: 1.5rem; color: #ed1c24; }
   h2 { font-size: 1.1rem; margin-bottom: 0.5rem; }
   .user-info { display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; }

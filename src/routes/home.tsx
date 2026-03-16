@@ -20,11 +20,13 @@ home.get("/", async (c) => {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Trakt iCal Feed</title>
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
         <style>{styles}</style>
       </head>
       <body>
         <div class="container">
           <div class="hero">
+            <img src="/logo.svg" alt="Trakt iCal" class="logo" />
             <h1>Trakt iCal Feed</h1>
             <p class="tagline">
               Subscribe to your Trakt watchlist as a calendar feed.
@@ -82,6 +84,7 @@ const styles = `
   }
   .container { max-width: 560px; padding: 2rem 1rem; text-align: center; }
   .hero { margin-bottom: 3rem; }
+  .logo { width: 256px; height: 256px; margin-bottom: 1rem; }
   h1 { font-size: 2rem; color: #ed1c24; margin-bottom: 1rem; }
   .tagline { color: #999; line-height: 1.6; margin-bottom: 1.5rem; }
   .error {
