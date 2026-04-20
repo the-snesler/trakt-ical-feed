@@ -64,3 +64,21 @@ export interface CalendarMovie {
     ids: { trakt: number; slug: string };
   };
 }
+
+export interface WatchlistMovie {
+  movie: {
+    title: string;
+    year: number;
+    released: string;
+    ids: { trakt: number; slug: string };
+  };
+}
+
+export interface WatchlistShow {
+  show: {
+    title: string;
+    year: number;
+    first_aired: string;
+    ids: { trakt: number; slug: string };
+  };
+}

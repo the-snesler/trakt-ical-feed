@@ -2,6 +2,8 @@ import { Hono } from "hono";
 import type { AppEnv } from "../lib/types";
 import { requireAuth } from "../middleware/session";
 import { getUserById, regenerateFeedToken } from "../db/queries";
+import { getValidAccessToken } from "../lib/auth";
+import { fetchWatchlistMovies, fetchWatchlistShows } from "../lib/trakt";
 
 const dashboard = new Hono<AppEnv>();
 
@@ -18,6 +20,13 @@ dashboard.get("/", async (c) => {
 
   const origin = new URL(c.req.url).origin;
   const feedUrl = `${origin}/feed/${user.feed_token}`;
+  const emptyKind = c.req.query("empty");
+  const emptyMessage =
+    emptyKind === "movie"
+      ? "No released movies on your watchlist."
+      : emptyKind === "show"
+        ? "No released shows on your watchlist."
+        : null;
 
   return c.html(
     <html lang="en">
@@ -36,9 +45,13 @@ dashboard.get("/", async (c) => {
               <h1>Trakt iCal Feed</h1>
             </div>
             <div class="user-info">
-              <span>Signed in as <strong>{userName}</strong></span>
+              <span>
+                Signed in as <strong>{userName}</strong>
+              </span>
               <form method="post" action="/auth/logout" style="display:inline">
-                <button type="submit" class="btn btn-sm">Logout</button>
+                <button type="submit" class="btn btn-sm">
+                  Logout
+                </button>
               </form>
             </div>
           </header>
@@ -46,7 +59,8 @@ dashboard.get("/", async (c) => {
           <section class="card">
             <h2>Your Feed URL</h2>
             <p class="description">
-              Add this URL to your calendar app (Google Calendar, Apple Calendar, Outlook) to subscribe to your Trakt watchlist.
+              Add this URL to your calendar app (Google Calendar, Apple
+              Calendar, Outlook) to subscribe to your Trakt watchlist.
             </p>
             <div class="feed-url-group">
               <input
@@ -61,15 +75,47 @@ dashboard.get("/", async (c) => {
               </button>
             </div>
             <label class="checkbox-label">
-              <input type="checkbox" id="allday-toggle" onchange="toggleAllDay()" />
+              <input
+                type="checkbox"
+                id="allday-toggle"
+                onchange="toggleAllDay()"
+              />
               All-day events
             </label>
           </section>
 
           <section class="card">
+            <h2>Pick something to watch</h2>
+            <p class="description">
+              While you're here: Pulls a random released title from your
+              watchlist and opens it on Trakt.
+            </p>
+            <div class="btn-row">
+              <a
+                href="/dashboard/random/movie"
+                target="_blank"
+                rel="noopener"
+                class="btn"
+              >
+                Random Movie ↗
+              </a>
+              <a
+                href="/dashboard/random/show"
+                target="_blank"
+                rel="noopener"
+                class="btn"
+              >
+                Random Show ↗
+              </a>
+            </div>
+            {emptyMessage && <p class="pick-empty">{emptyMessage}</p>}
+          </section>
+
+          <section class="card">
             <h2>Regenerate Feed URL</h2>
             <p class="description">
-              If your feed URL is compromised, regenerate it. The old URL will stop working immediately.
+              If your feed URL is compromised, regenerate it. The old URL will
+              stop working immediately.
             </p>
             <form method="post" action="/feed/regenerate">
               <button type="submit" class="btn btn-danger">
@@ -78,7 +124,9 @@ dashboard.get("/", async (c) => {
             </form>
           </section>
         </div>
-        <script dangerouslySetInnerHTML={{__html: `
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
           var baseUrl = document.getElementById('feed-url').getAttribute('value');
           function updateUrl() {
             var input = document.getElementById('feed-url');
@@ -94,9 +142,11 @@ dashboard.get("/", async (c) => {
               setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
             });
           }
-        `}} />
+        `,
+          }}
+        />
       </body>
-    </html>
+    </html>,
   );
 });
 
@@ -104,6 +154,61 @@ dashboard.post("/feed/regenerate", async (c) => {
   const userId = c.get("userId");
   await regenerateFeedToken(c.env.DB, Number(userId));
   return c.redirect("/dashboard");
+});
+
+dashboard.get("/random/:kind{movie|show}", async (c) => {
+  const kind = c.req.param("kind") as "movie" | "show";
+  const userId = c.get("userId");
+  const user = await getUserById(c.env.DB, userId);
+
+  if (!user) {
+    return c.redirect("/");
+  }
+
+  let accessToken: string;
+  try {
+    accessToken = await getValidAccessToken(
+      c.env,
+      user,
+      new URL(c.req.url).origin,
+    );
+  } catch (e) {
+    console.error("Token refresh failed:", e);
+    return c.text("Token refresh failed — please re-authenticate", 401);
+  }
+
+  const now = Date.now();
+
+  try {
+    if (kind === "movie") {
+      const items = await fetchWatchlistMovies(
+        c.env.TRAKT_CLIENT_ID,
+        accessToken,
+      );
+      const released = items.filter((i) => {
+        const t = Date.parse(i.movie?.released);
+        return !isNaN(t) && t <= now;
+      });
+      if (released.length === 0) return c.redirect("/dashboard?empty=movie");
+      const pick = released[Math.floor(Math.random() * released.length)];
+      return c.redirect(`https://trakt.tv/movies/${pick.movie.ids.slug}`);
+    } else {
+      const items = await fetchWatchlistShows(
+        c.env.TRAKT_CLIENT_ID,
+        accessToken,
+      );
+      const released = items.filter((i) => {
+        const t = Date.parse(i.show?.first_aired);
+        return !isNaN(t) && t <= now;
+      });
+      if (released.length === 0) return c.redirect("/dashboard?empty=show");
+      const pick = released[Math.floor(Math.random() * released.length)];
+      return c.redirect(`https://trakt.tv/shows/${pick.show.ids.slug}`);
+    }
+  } catch (e) {
+    console.error("Random pick failed:", e);
+    return c.text("Failed to pick a random title", 500);
+  }
 });
 
 const styles = `
@@ -169,6 +274,9 @@ const styles = `
   .btn-sm { padding: 0.3rem 0.75rem; font-size: 0.8rem; }
   .btn-danger { border-color: #ed1c24; color: #ed1c24; }
   .btn-danger:hover { background: #2a1a1a; }
+  a.btn { display: inline-block; text-decoration: none; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .pick-empty { margin-top: 0.75rem; font-size: 0.85rem; color: #999; }
 `;
 
 export default dashboard;

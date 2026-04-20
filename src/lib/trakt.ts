@@ -3,6 +3,8 @@ import type {
   TraktUser,
   CalendarShow,
   CalendarMovie,
+  WatchlistMovie,
+  WatchlistShow,
 } from "./types";
 
 const TRAKT_API = "https://api.trakt.tv";
@@ -117,6 +119,38 @@ export async function fetchCalendarMovies(
 
   if (!res.ok) {
     throw new Error(`Failed to fetch calendar movies: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function fetchWatchlistMovies(
+  clientId: string,
+  accessToken: string
+): Promise<WatchlistMovie[]> {
+  const res = await fetch(
+    `${TRAKT_API}/users/me/watchlist/movies?extended=full`,
+    { headers: headers(clientId, accessToken) }
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch watchlist movies: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function fetchWatchlistShows(
+  clientId: string,
+  accessToken: string
+): Promise<WatchlistShow[]> {
+  const res = await fetch(
+    `${TRAKT_API}/users/me/watchlist/shows?extended=full`,
+    { headers: headers(clientId, accessToken) }
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch watchlist shows: ${res.status}`);
   }
 
   return res.json();
