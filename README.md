@@ -1,21 +1,13 @@
-```txt
-npm install
-npm run dev
-```
+<div align="center">
+<img src="./public/logo.svg" width=400 />
+</div>
 
-```txt
-npm run deploy
-```
+# Trakt iCal Feed
 
-[For generating/synchronizing types based on your Worker configuration run](https://developers.cloudflare.com/workers/wrangler/commands/#types):
+https://trakt.samnesler.com
 
-```txt
-npm run cf-typegen
-```
+Subscribe to your Trakt watchlist as a calendar feed. See air dates for shows and release dates for movies, right in your calendar app.
 
-Pass the `CloudflareBindings` as generics when instantiation `Hono`:
-
-```ts
-// src/index.ts
-const app = new Hono<{ Bindings: CloudflareBindings }>()
-```
+- Watchlist Calendar: Upcoming episodes and movie releases from your Trakt watchlist, delivered as a standard iCal feed.
+- Works Everywhere: Google Calendar, Apple Calendar, Outlook — any app that supports URL subscriptions.
+- Always Fresh: Your calendar updates automatically as your watchlist changes. No manual syncing needed.
