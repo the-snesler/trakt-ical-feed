@@ -19,7 +19,15 @@ home.get("/", async (c) => {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Trakt iCal Feed</title>
+        <title>Trakt iCal Generator – Calendar Feed for Your Watchlist</title>
+        <meta name="description" content="Generate an iCal calendar feed from your Trakt watchlist. Subscribe in Google Calendar, Apple Calendar, or Outlook to track air dates for TV shows and release dates for movies." />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://trakt.samnesler.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://trakt.samnesler.com/" />
+        <meta property="og:title" content="Trakt iCal Generator – Calendar Feed for Your Watchlist" />
+        <meta property="og:description" content="Generate an iCal calendar feed from your Trakt watchlist. Subscribe in Google Calendar, Apple Calendar, or Outlook to track air dates for TV shows and release dates for movies." />
+        <meta property="og:image" content="https://trakt.samnesler.com/logo.svg" />
         <link rel="icon" href="/logo.svg" type="image/svg+xml" />
         <style>{styles}</style>
       </head>
