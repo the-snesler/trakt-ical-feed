@@ -4,6 +4,7 @@ import { requireAuth } from "../middleware/session";
 import { getUserById, regenerateFeedToken } from "../db/queries";
 import { getValidAccessToken } from "../lib/auth";
 import { fetchWatchlistMovies, fetchWatchlistShows } from "../lib/trakt";
+import { Footer, footerStyles } from "../components/Footer";
 
 const dashboard = new Hono<AppEnv>();
 
@@ -123,6 +124,8 @@ dashboard.get("/", async (c) => {
               </button>
             </form>
           </section>
+
+          <Footer />
         </div>
         <script
           dangerouslySetInnerHTML={{
@@ -212,6 +215,7 @@ dashboard.get("/random/:kind{movie|show}", async (c) => {
 });
 
 const styles = `
+${footerStyles}
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
