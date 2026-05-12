@@ -115,8 +115,7 @@ dashboard.get("/", async (c) => {
           <section class="card">
             <h2>Regenerate Feed URL</h2>
             <p class="description">
-              If your feed URL is compromised, regenerate it. The old URL will
-              stop working immediately.
+              Create a new feed URL. The old URL will stop working immediately.
             </p>
             <form method="post" action="/feed/regenerate">
               <button type="submit" class="btn btn-danger">

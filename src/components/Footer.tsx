@@ -41,12 +41,10 @@ export const Footer = () => (
         rel="noopener noreferrer"
       >
         <BrandIcon icon={Icons.trakt} size={16} />
-        <span>Trakt profile</span>
+        <span>oncetsuni</span>
       </a>
     </div>
-    <p class="footer-note">
-      Built by Sam Nesler. Not affiliated with Trakt.
-    </p>
+    <p class="footer-note">Built by Sam Nesler. Not affiliated with Trakt.</p>
   </footer>
 );
 
