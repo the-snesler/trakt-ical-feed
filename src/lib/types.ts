@@ -82,3 +82,26 @@ export interface WatchlistShow {
     ids: { trakt: number; slug: string };
   };
 }
+
+export interface TraktHistoryEntry {
+  id: number;
+  watched_at: string;
+  action: "scrobble" | "checkin" | "watch";
+  type: "movie";
+  movie: {
+    title: string;
+    year: number | null;
+    ids: { trakt: number; slug: string; imdb?: string; tmdb?: number };
+  };
+}
+
+export interface TraktMovieRating {
+  rated_at: string;
+  rating: number;
+  type: "movie";
+  movie: {
+    title: string;
+    year: number | null;
+    ids: { trakt: number; slug: string };
+  };
+}

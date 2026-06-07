@@ -5,6 +5,8 @@ import type {
   CalendarMovie,
   WatchlistMovie,
   WatchlistShow,
+  TraktHistoryEntry,
+  TraktMovieRating,
 } from "./types";
 
 const TRAKT_API = "https://api.trakt.tv";
@@ -151,6 +153,54 @@ export async function fetchWatchlistShows(
 
   if (!res.ok) {
     throw new Error(`Failed to fetch watchlist shows: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function fetchWatchedHistory(
+  clientId: string,
+  accessToken: string,
+  opts: { limit?: number; maxPages?: number } = {}
+): Promise<TraktHistoryEntry[]> {
+  const limit = opts.limit ?? 1000;
+  const maxPages = opts.maxPages ?? 25;
+  const all: TraktHistoryEntry[] = [];
+
+  let page = 1;
+  let pageCount = 1;
+  while (page <= pageCount && page <= maxPages) {
+    const res = await fetch(
+      `${TRAKT_API}/sync/history/movies?page=${page}&limit=${limit}`,
+      { headers: headers(clientId, accessToken) }
+    );
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch watched history (page ${page}): ${res.status}`
+      );
+    }
+    const chunk = (await res.json()) as TraktHistoryEntry[];
+    all.push(...chunk);
+    const headerCount = Number(res.headers.get("X-Pagination-Page-Count"));
+    if (Number.isFinite(headerCount) && headerCount > 0) {
+      pageCount = headerCount;
+    }
+    if (chunk.length === 0) break;
+    page += 1;
+  }
+  return all;
+}
+
+export async function fetchMovieRatings(
+  clientId: string,
+  accessToken: string
+): Promise<TraktMovieRating[]> {
+  const res = await fetch(`${TRAKT_API}/sync/ratings/movies`, {
+    headers: headers(clientId, accessToken),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch movie ratings: ${res.status}`);
   }
 
   return res.json();

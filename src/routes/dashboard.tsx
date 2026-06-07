@@ -3,7 +3,13 @@ import type { AppEnv } from "../lib/types";
 import { requireAuth } from "../middleware/session";
 import { getUserById, regenerateFeedToken } from "../db/queries";
 import { getValidAccessToken } from "../lib/auth";
-import { fetchWatchlistMovies, fetchWatchlistShows } from "../lib/trakt";
+import {
+  fetchWatchlistMovies,
+  fetchWatchlistShows,
+  fetchWatchedHistory,
+  fetchMovieRatings,
+} from "../lib/trakt";
+import { toLetterboxdCsv } from "../lib/letterboxd";
 import { Footer, footerStyles } from "../components/Footer";
 
 const dashboard = new Hono<AppEnv>();
@@ -113,6 +119,31 @@ dashboard.get("/", async (c) => {
           </section>
 
           <section class="card">
+            <h2>Export to Letterboxd</h2>
+            <p class="description">
+              Download your Trakt watch history as a Letterboxd-compatible CSV.
+              Import it at{" "}
+              <a
+                href="https://letterboxd.com/import/"
+                target="_blank"
+                rel="noopener"
+              >
+                letterboxd.com/import
+              </a>
+              . Ratings (1–10) and rewatches are included.
+            </p>
+            <div class="btn-row">
+              <a
+                href="/dashboard/export/letterboxd.csv"
+                class="btn"
+                download
+              >
+                Download CSV
+              </a>
+            </div>
+          </section>
+
+          <section class="card">
             <h2>Regenerate Feed URL</h2>
             <p class="description">
               Create a new feed URL. The old URL will stop working immediately.
@@ -213,6 +244,43 @@ dashboard.get("/random/:kind{movie|show}", async (c) => {
   }
 });
 
+dashboard.get("/export/letterboxd.csv", async (c) => {
+  const userId = c.get("userId");
+  const user = await getUserById(c.env.DB, userId);
+  if (!user) {
+    return c.redirect("/");
+  }
+
+  let accessToken: string;
+  try {
+    accessToken = await getValidAccessToken(
+      c.env,
+      user,
+      new URL(c.req.url).origin,
+    );
+  } catch (e) {
+    console.error("Token refresh failed:", e);
+    return c.text("Token refresh failed — please re-authenticate", 401);
+  }
+
+  try {
+    const [history, ratings] = await Promise.all([
+      fetchWatchedHistory(c.env.TRAKT_CLIENT_ID, accessToken),
+      fetchMovieRatings(c.env.TRAKT_CLIENT_ID, accessToken),
+    ]);
+    const csv = toLetterboxdCsv(history, ratings);
+    const today = new Date().toISOString().slice(0, 10);
+    return c.body(csv, 200, {
+      "Content-Type": "text/csv; charset=utf-8",
+      "Content-Disposition": `attachment; filename="letterboxd-trakt-${today}.csv"`,
+      "Cache-Control": "no-store",
+    });
+  } catch (e) {
+    console.error("Letterboxd export failed:", e);
+    return c.text("Failed to build Letterboxd CSV", 500);
+  }
+});
+
 const styles = `
 ${footerStyles}
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -244,6 +312,7 @@ ${footerStyles}
     margin-bottom: 1rem;
   }
   .description { font-size: 0.85rem; color: #999; margin-bottom: 1rem; }
+  .description a { color: #ed1c24; text-decoration: underline; }
   .feed-url-group { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
   .checkbox-label {
     display: flex;
